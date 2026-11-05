@@ -1496,6 +1496,9 @@
 
     <string name="misc_section_app">APP</string>
     <string name="misc_section_setup">SETUP</string>
+    <string name="misc_section_performance">PERFORMANCE</string>
+    <string name="pref_high_performance_title">High performance mode</string>
+    <string name="pref_high_performance_summary">Keeps the app at 60 Hz for the smoothest motion. Uses more battery; Android may lower it when the phone is hot or the battery saver is on</string>
 
     <string name="quiver_guard">Quiver Guard</string>
 

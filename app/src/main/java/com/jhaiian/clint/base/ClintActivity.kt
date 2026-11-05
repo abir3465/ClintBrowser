@@ -31,6 +31,10 @@ import kotlin.math.max
 
 abstract class ClintActivity : AppCompatActivity() {
 
+    companion object {
+        const val PREF_HIGH_PERFORMANCE_MODE = "high_performance_mode"
+    }
+
     private var appliedTheme: String? = null
     private var appliedAccent: String? = null
     private var appliedIntensity: String? = null
@@ -102,6 +106,7 @@ abstract class ClintActivity : AppCompatActivity() {
         syncSystemTheme()
         applyStatusBarVisibility()
         applyWindowChrome()
+        applyRefreshRatePreference()
         window.decorView.post {
             applyStatusBarVisibility()
             startRevealIfNeeded()
@@ -235,6 +240,18 @@ abstract class ClintActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus && openDialogCount == 0) applyStatusBarVisibility()
+        if (hasFocus) applyRefreshRatePreference()
+    }
+
+    fun applyRefreshRatePreference() {
+        val enabled = PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean(PREF_HIGH_PERFORMANCE_MODE, false)
+        val target = if (enabled) 60f else 0f
+        val params = window.attributes
+        if (params.preferredRefreshRate != target) {
+            params.preferredRefreshRate = target
+            window.attributes = params
+        }
     }
 
     fun applyStatusBarFlagToDialog(dialog: android.app.Dialog) {

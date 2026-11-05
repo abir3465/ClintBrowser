@@ -1,6 +1,7 @@
 package com.jhaiian.clint.settings.misc
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Speed
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import com.jhaiian.clint.settings.common.SettingsScreenScaffold
 import com.jhaiian.clint.settings.common.SettingsSection
 import com.jhaiian.clint.settings.common.SettingsSectionLabel
 import com.jhaiian.clint.ui.ClintDialog
+import com.jhaiian.clint.ui.ClintSwitch
 import com.jhaiian.clint.ui.theme.LocalClintColors
 
 @Composable
@@ -59,6 +61,7 @@ private fun RerunSetupConfirmDialog(hideStatusBar: Boolean, hideSystemNavigation
 fun MiscScreen(
     state: MiscUiState,
     onDefaultBrowserClick: () -> Unit,
+    onHighPerformanceClick: () -> Unit,
     onRerunSetupClick: () -> Unit,
     onRerunSetupConfirm: () -> Unit
 ) {
@@ -83,6 +86,18 @@ fun MiscScreen(
                 summary = state.defaultBrowserSummary,
                 colors = colors,
                 onClick = onDefaultBrowserClick
+            )
+        }
+
+        SettingsSectionLabel(stringResource(R.string.misc_section_performance))
+        SettingsSection(colors.cardBackground) {
+            SettingsRow(
+                icon = androidx.compose.material.icons.Icons.Filled.Speed,
+                title = stringResource(R.string.pref_high_performance_title),
+                summary = stringResource(R.string.pref_high_performance_summary),
+                colors = colors,
+                onClick = onHighPerformanceClick,
+                trailing = { ClintSwitch(checked = state.highPerformanceMode) }
             )
         }
 

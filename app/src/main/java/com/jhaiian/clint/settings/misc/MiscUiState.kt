@@ -7,8 +7,10 @@ import androidx.compose.runtime.setValue
 class MiscUiState(
     initialDefaultBrowserSummary: String,
     val hideStatusBar: Boolean,
-val hideSystemNavigation: Boolean
+val hideSystemNavigation: Boolean,
+    initialHighPerformanceMode: Boolean = false
 ) {
+    var highPerformanceMode by mutableStateOf(initialHighPerformanceMode)
     var defaultBrowserSummary by mutableStateOf(initialDefaultBrowserSummary)
     var rerunSetupConfirmDialogOpen by mutableStateOf(false)
 }

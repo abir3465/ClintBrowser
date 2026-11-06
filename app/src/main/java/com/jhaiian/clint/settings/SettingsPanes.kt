@@ -59,6 +59,7 @@ import com.jhaiian.clint.settings.downloads.DownloadSettingsScreen
 import com.jhaiian.clint.settings.downloads.DownloadSettingsUiState
 import com.jhaiian.clint.settings.lookandfeel.LookAndFeelScreen
 import com.jhaiian.clint.settings.lookandfeel.LookAndFeelUiState
+import com.jhaiian.clint.base.ClintActivity
 import com.jhaiian.clint.settings.misc.MiscScreen
 import com.jhaiian.clint.settings.misc.MiscUiState
 import com.jhaiian.clint.settings.privacy.PrivacySettingsScreen
@@ -1057,7 +1058,8 @@ fun MiscPane(activity: SettingsActivity) {
         MiscUiState(
             initialDefaultBrowserSummary = defaultBrowserSummaryText(activity),
             hideStatusBar = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("hide_status_bar", false),
-            hideSystemNavigation = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("hide_system_navigation", false)
+            hideSystemNavigation = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("hide_system_navigation", false),
+            initialHighPerformanceMode = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(ClintActivity.PREF_HIGH_PERFORMANCE_MODE, false)
         )
     }
 
@@ -1092,6 +1094,13 @@ fun MiscPane(activity: SettingsActivity) {
     MiscScreen(
         state = uiState,
         onDefaultBrowserClick = { openDefaultBrowserPicker() },
+        onHighPerformanceClick = {
+            val newValue = !uiState.highPerformanceMode
+            PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                .putBoolean(ClintActivity.PREF_HIGH_PERFORMANCE_MODE, newValue).apply()
+            uiState.highPerformanceMode = newValue
+            activity.applyRefreshRatePreference()
+        },
         onRerunSetupClick = { uiState.rerunSetupConfirmDialogOpen = true },
         onRerunSetupConfirm = {
             uiState.rerunSetupConfirmDialogOpen = false
